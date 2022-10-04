@@ -4,17 +4,19 @@ plugins {
     id 'java'
 }
 
-group = 'ru.hogwarts'
+group = 'ru.hogwarts.school'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+
 }
 
 tasks.named('test') {
