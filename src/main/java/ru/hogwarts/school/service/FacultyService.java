@@ -35,7 +35,7 @@ public class FacultyService {
     public List<Faculty> getFacultyByColor(String color) {
         List<Faculty> tmp = new ArrayList<>();
         for (long i = 0; i < faculties.size(); i++) {
-            if (Objects.equals(faculties.get(i).getColor(), color)){
+            if (Objects.equals(faculties.get(i).getColor(), color)) {
                 tmp.add(faculties.get(i));
             }
         }

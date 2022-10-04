@@ -34,7 +34,7 @@ public class StudentService {
     public List<Student> getStudentsByAge(int age) {
         List<Student> tmp = new ArrayList<>();
         for (long i = 0; i < students.size(); i++) {
-            if (students.get(i).getAge() == age){
+            if (students.get(i).getAge() == age) {
                 tmp.add(students.get(i));
             }
         }

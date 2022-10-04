@@ -13,9 +13,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.3'
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.3'
+// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.2'
 
 }
 
