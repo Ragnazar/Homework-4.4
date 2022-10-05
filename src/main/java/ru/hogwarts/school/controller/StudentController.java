@@ -1,10 +1,11 @@
 package ru.hogwarts.school.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.webjars.NotFoundException;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("student")
@@ -17,7 +18,7 @@ public class StudentController {
     }
 
     @GetMapping(path = "{id}")
-    public Student getStudentInfo(@PathVariable Long id) {
+    public Student getStudentInfo(@PathVariable Long id) throws NotFoundException {
         return studentService.findStudent(id);
     }
 
@@ -36,8 +37,8 @@ public class StudentController {
         return studentService.editStudent(student);
     }
 
-    @GetMapping(path = "{age}")
-    public List<Student> filterByAge(@PathVariable int age) {
+    @GetMapping(path = "/filter/{age}")
+    public Collection<Student> filterByAge(@PathVariable int age) {
         return studentService.getStudentsByAge(age);
     }
 

@@ -35,8 +35,8 @@ public class FacultyController {
         return facultyService.editFaculty(faculty);
     }
 
-    @GetMapping(path = "{color}")
-    public List<Faculty> filterByAge(@PathVariable String color) {
+    @GetMapping(path = "filter/{color}")
+    public List<Faculty> filterByColor(@PathVariable String color) {
         return facultyService.getFacultyByColor(color);
     }
 }
