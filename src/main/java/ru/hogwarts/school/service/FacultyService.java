@@ -8,43 +8,34 @@ import java.util.*;
 
 @Service
 public class FacultyService {
+private final FacultyRepository facultyRepository;
 
-    private FacultyRepository facultyRepository;
+    public FacultyService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
 
     public Faculty createFaculty(Faculty faculty) {
-        faculty.setId(++lastId);
-        faculties.put(lastId, faculty);
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
     public Faculty findFaculty(long id) {
-        return faculties.get(id);
+        //noinspection OptionalGetWithoutIsPresent
+        return facultyRepository.findById(id).get();
     }
 
     public Faculty editFaculty(Faculty faculty) {
-        long id = faculty.getId();
-        faculties.put(id, faculty);
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
-    public Faculty deleteFaculty(long id) {
-        return faculties.remove(id);
+    public void deleteFaculty(long id) {
+        facultyRepository.deleteById(id);
     }
 
     public Collection<Faculty> getFacultyByColor(String color) {
-        Collection<Faculty> tmp = new ArrayList<>();
-        for (long i = 1; i <= faculties.size(); i++) {
-            if (faculties.get(i) == null) {
-                i++;
-            }
-            if (Objects.equals(faculties.get(i).getColor(), color)) {
-                tmp.add(faculties.get(i));
-            }
-        }
-        return tmp;
+        return facultyRepository.findByColor(color);
     }
 
     public Collection<Faculty> getAll() {
-        return faculties.values();
+        return facultyRepository.findAll();
     }
 }

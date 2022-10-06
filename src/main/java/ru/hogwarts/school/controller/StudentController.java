@@ -26,28 +26,28 @@ public class StudentController {
         }
         return ResponseEntity.ok(student);
     }
+
     @GetMapping  //GET http://localhost:8080/student
     public ResponseEntity<Collection<Student>> getAllStudents() {
-        return ResponseEntity.ok(studentService.getAll());
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
+
     @PostMapping    //POST http://localhost:8080/student
     public Student addStudent(@RequestBody Student student) {
         return studentService.createStudent(student);
     }
 
+    @SuppressWarnings("rawtypes")
     @DeleteMapping(path = "{id}")  //DELETE http://localhost:8080/student/23
-    public ResponseEntity<Student> removeStudent(@PathVariable Long id) {
-        Student student = studentService.deleteStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public ResponseEntity removeStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping  //PUT http://localhost:8080/student/23
     public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
         Student foundStudent = studentService.findStudent(student.getId());
-        if (foundStudent == null){
+        if (foundStudent == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(studentService.editStudent(student));

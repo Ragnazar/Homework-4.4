@@ -36,13 +36,11 @@ public class FacultyController {
         return facultyService.createFaculty(faculty);
     }
 
+    @SuppressWarnings("rawtypes")
     @DeleteMapping(path = "{id}") //DELETE http://localhost:8080/faculty/23
-    public ResponseEntity<Faculty> removeFaculty(@PathVariable Long id) {
-        Faculty faculty = facultyService.deleteFaculty(id);
-        if (faculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(faculty);
+    public ResponseEntity removeFaculty(@PathVariable Long id) {
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping  //PUT http://localhost:8080/faculty/23

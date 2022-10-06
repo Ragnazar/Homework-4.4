@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Objects;
+
 @Entity
 public class Student {
     @Id
@@ -11,10 +12,6 @@ public class Student {
     private Long id;
     private String name;
     private int age;
-
-    public Student() {
-        this.name = name;
-    }
 
     public Long getId() {
         return id;
