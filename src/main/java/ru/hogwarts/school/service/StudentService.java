@@ -2,13 +2,14 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.*;
 
 @Service
 public class StudentService {
-    public HashMap<Long, Student> students = new HashMap<>();
-    private long lastId = 0;
+
+    private StudentRepository studentRepository;
 
     public Student createStudent(Student student) {
         student.setId(++lastId);
