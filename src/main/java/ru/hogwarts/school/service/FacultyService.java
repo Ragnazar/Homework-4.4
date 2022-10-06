@@ -1,13 +1,9 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 import ru.hogwarts.school.model.Faculty;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class FacultyService {
@@ -21,35 +17,23 @@ public class FacultyService {
     }
 
     public Faculty findFaculty(long id) {
-        Faculty faculty = faculties.get(id);
-        if (faculty == null) {
-            throw new NotFoundException("Такого факультета не существует");
-        }
-        return faculty;
+        return faculties.get(id);
     }
 
     public Faculty editFaculty(Faculty faculty) {
         long id = faculty.getId();
-        Faculty tar = faculties.get(id);
-        if (tar == null) {
-            throw new NotFoundException("Такого факультета не существует");
-        }
         faculties.put(id, faculty);
         return faculty;
     }
 
     public Faculty deleteFaculty(long id) {
-        Faculty faculty = faculties.get(id);
-        if (faculty == null) {
-            throw new NotFoundException("Такого факультета не существует");
-        }
         return faculties.remove(id);
     }
 
-    public List<Faculty> getFacultyByColor(String color) {
-        List<Faculty> tmp = new ArrayList<>();
+    public Collection<Faculty> getFacultyByColor(String color) {
+        Collection<Faculty> tmp = new ArrayList<>();
         for (long i = 1; i <= faculties.size(); i++) {
-            if (faculties.get(i) == null){
+            if (faculties.get(i) == null) {
                 i++;
             }
             if (Objects.equals(faculties.get(i).getColor(), color)) {
@@ -57,5 +41,9 @@ public class FacultyService {
             }
         }
         return tmp;
+    }
+
+    public Collection<Faculty> getAll() {
+        return faculties.values();
     }
 }
