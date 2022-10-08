@@ -37,9 +37,8 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
-    @SuppressWarnings("rawtypes")
     @DeleteMapping(path = "{id}")  //DELETE http://localhost:8080/student/23
-    public ResponseEntity removeStudent(@PathVariable Long id) {
+    public ResponseEntity<Student> removeStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }

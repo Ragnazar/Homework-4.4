@@ -21,8 +21,7 @@ public class StudentService {
     }
 
     public Student findStudent(long id) {
-        //noinspection OptionalGetWithoutIsPresent
-        return studentRepository.findById(id).get();
+        return studentRepository.findById(id).orElse(null);
     }
 
     @Transactional

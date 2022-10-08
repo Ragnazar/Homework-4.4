@@ -19,8 +19,7 @@ private final FacultyRepository facultyRepository;
     }
 
     public Faculty findFaculty(long id) {
-        //noinspection OptionalGetWithoutIsPresent
-        return facultyRepository.findById(id).get();
+        return facultyRepository.findById(id).orElse(null);
     }
 
     public Faculty editFaculty(Faculty faculty) {

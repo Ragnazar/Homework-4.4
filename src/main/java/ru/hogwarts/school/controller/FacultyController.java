@@ -27,7 +27,7 @@ public class FacultyController {
     }
 
     @GetMapping  //GET http://localhost:8080/faculty
-    public ResponseEntity<Collection<Faculty>> getAllfacultys() {
+    public ResponseEntity<Collection<Faculty>> getAllFaculties() {
         return ResponseEntity.ok(facultyService.getAll());
     }
 
@@ -36,9 +36,8 @@ public class FacultyController {
         return facultyService.createFaculty(faculty);
     }
 
-    @SuppressWarnings("rawtypes")
     @DeleteMapping(path = "{id}") //DELETE http://localhost:8080/faculty/23
-    public ResponseEntity removeFaculty(@PathVariable Long id) {
+    public ResponseEntity<Faculty> removeFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
