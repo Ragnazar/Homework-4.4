@@ -1,6 +1,5 @@
 package ru.hogwarts.school.service;
 
-import org.hibernate.cfg.CollectionSecondPass;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
@@ -41,8 +40,16 @@ public class StudentService {
     public Collection<Student> getStudentsByAge(int age) {
         return studentRepository.findByAge(age);
     }
-    public Collection<Student> findStudentsByAgeIsBetween(int age1, int age2){
+
+    public Collection<Student> findStudentsByAgeIsBetween(int age1, int age2) {
         return studentRepository.findStudentsByAgeIsBetween(age1, age2);
     }
-    public Student findByName(String name){return studentRepository.findByNameIgnoreCase(name);}
+
+    public Student findByName(String name) {
+        return studentRepository.findByNameIgnoreCase(name);
+    }
+
+    public Collection<Student> findByFaculty(Long faculty_id) {
+        return studentRepository.findStudentsByFacultyId(faculty_id);
+    }
 }

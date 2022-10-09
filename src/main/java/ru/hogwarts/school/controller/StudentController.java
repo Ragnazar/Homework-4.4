@@ -29,12 +29,16 @@ public class StudentController {
 
     @GetMapping  //GET http://localhost:8080/student
     public ResponseEntity<?> findStudents(@RequestParam(required = false) Integer age,
-                                                            @RequestParam(required = false) String name) {
+                                          @RequestParam(required = false) String name,
+                                          @RequestParam(required = false) Long faculty_id) {
         if (age != null) {
             return ResponseEntity.ok(studentService.getStudentsByAge(age));
         }
         if (name != null && !name.isBlank()) {
             return ResponseEntity.ok(studentService.findByName(name));
+        }
+        if (faculty_id != null) {
+            return ResponseEntity.ok(studentService.findByFaculty(faculty_id));
         }
         return ResponseEntity.ok(studentService.getAllStudents());
     }

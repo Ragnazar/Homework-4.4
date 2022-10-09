@@ -40,4 +40,8 @@ private final FacultyRepository facultyRepository;
     public Faculty findByName (String name) {
         return facultyRepository.findByNameIgnoreCase(name);
     }
+
+    public Faculty findByStudentId(Long student_id) {
+        return facultyRepository.findByStudentsId(student_id);
+    }
 }
