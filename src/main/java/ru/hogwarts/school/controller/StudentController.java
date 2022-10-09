@@ -28,7 +28,14 @@ public class StudentController {
     }
 
     @GetMapping  //GET http://localhost:8080/student
-    public ResponseEntity<Collection<Student>> getAllStudents() {
+    public ResponseEntity<?> findStudents(@RequestParam(required = false) Integer age,
+                                                            @RequestParam(required = false) String name) {
+        if (age != null) {
+            return ResponseEntity.ok(studentService.getStudentsByAge(age));
+        }
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(studentService.findByName(name));
+        }
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
@@ -52,9 +59,10 @@ public class StudentController {
         return ResponseEntity.ok(studentService.editStudent(student));
     }
 
-    @GetMapping(path = "/filter/{age}")  //GET http://localhost:8080/student/filter/23
-    public ResponseEntity<Collection<Student>> filterByAge(@PathVariable int age) {
-        return ResponseEntity.ok(studentService.getStudentsByAge(age));
-    }
 
+    @GetMapping(path = "/age-between") //GET http://localhost:8080/student/age-between?age1=11&age2=12
+    public ResponseEntity<Collection<Student>> getStudentsByAgeIsBetween(@RequestParam("age1") int age1,
+                                                                         @RequestParam("age2") int age2) {
+        return ResponseEntity.ok(studentService.findStudentsByAgeIsBetween(age1, age2));
+    }
 }

@@ -31,10 +31,13 @@ private final FacultyRepository facultyRepository;
     }
 
     public Collection<Faculty> getFacultyByColor(String color) {
-        return facultyRepository.findByColor(color);
+        return facultyRepository.findByColorIgnoreCase(color);
     }
 
     public Collection<Faculty> getAll() {
         return facultyRepository.findAll();
+    }
+    public Faculty findByName (String name) {
+        return facultyRepository.findByNameIgnoreCase(name);
     }
 }

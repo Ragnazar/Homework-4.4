@@ -26,8 +26,15 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping  //GET http://localhost:8080/faculty
-    public ResponseEntity<Collection<Faculty>> getAllFaculties() {
+    @GetMapping  //GET http://localhost:8080/faculty or GET http://localhost:8080/faculty?name=some-name
+    public ResponseEntity<?> findBooks(@RequestParam(required = false) String name,
+                                       @RequestParam(required = false) String color) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByName(name));
+        }
+        if (color != null && !color.isBlank()) {
+            return ResponseEntity.ok(facultyService.getFacultyByColor(color));
+        }
         return ResponseEntity.ok(facultyService.getAll());
     }
 
@@ -49,10 +56,5 @@ public class FacultyController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(foundFaculty);
-    }
-
-    @GetMapping(path = "filter/{color}") //GET http://localhost:8080/faculty/filter/red
-    public ResponseEntity<Collection<Faculty>> filterByColor(@PathVariable String color) {
-        return ResponseEntity.ok(facultyService.getFacultyByColor(color));
     }
 }
