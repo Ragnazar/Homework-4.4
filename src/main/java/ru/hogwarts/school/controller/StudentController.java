@@ -3,6 +3,7 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -28,19 +29,9 @@ public class StudentController {
     }
 
     @GetMapping  //GET http://localhost:8080/student
-    public ResponseEntity<?> findStudents(@RequestParam(required = false) Integer age,
-                                          @RequestParam(required = false) String name,
-                                          @RequestParam(required = false) Long faculty_id) {
-        if (age != null) {
-            return ResponseEntity.ok(studentService.getStudentsByAge(age));
-        }
-        if (name != null && !name.isBlank()) {
-            return ResponseEntity.ok(studentService.findByName(name));
-        }
-        if (faculty_id != null) {
-            return ResponseEntity.ok(studentService.findByFaculty(faculty_id));
-        }
-        return ResponseEntity.ok(studentService.getAllStudents());
+    public ResponseEntity<Collection<Student>> findStudent(@RequestParam Integer age,
+                                                           @RequestParam String name) {
+        return ResponseEntity.ok(studentService.findByNameAndAge(name, age));
     }
 
     @PostMapping    //POST http://localhost:8080/student
@@ -65,8 +56,13 @@ public class StudentController {
 
 
     @GetMapping(path = "/age-between") //GET http://localhost:8080/student/age-between?age1=11&age2=12
-    public ResponseEntity<Collection<Student>> getStudentsByAgeIsBetween(@RequestParam("age1") int age1,
-                                                                         @RequestParam("age2") int age2) {
+    public ResponseEntity<Collection<Student>> getStudentsByAgeIsBetween(@RequestParam int age1,
+                                                                         @RequestParam int age2) {
         return ResponseEntity.ok(studentService.findStudentsByAgeIsBetween(age1, age2));
+    }
+
+    @GetMapping(path = "{id}/faculty")//GET http://localhost:8080/student/{id}/faculty
+    public ResponseEntity<Faculty> getFacultyById(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.findFaculty(id));
     }
 }

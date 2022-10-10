@@ -4,7 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("faculty")
@@ -24,19 +27,12 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping  //GET http://localhost:8080/faculty or GET http://localhost:8080/faculty?name=some-name
-    public ResponseEntity<?> findFaculties(@RequestParam(required = false) String name,
-                                           @RequestParam(required = false) String color,
-                                           @RequestParam(required = false) Long student_id) {
-        if (name != null && !name.isBlank()) {
-            return ResponseEntity.ok(facultyService.findByName(name));
-        }
-        if (color != null && !color.isBlank()) {
-            return ResponseEntity.ok(facultyService.getFacultyByColor(color));
-        }
-        if (student_id != null) {
-            return ResponseEntity.ok(facultyService.findByStudentId(student_id));
-        }
+    @GetMapping  //GET http://localhost:8080/faculty?nameOrColor=name-or-color
+    public ResponseEntity<Faculty> findFacultyByNameOrColor(@RequestParam String nameOrColor) {
+        return ResponseEntity.ok(facultyService.findByNameOrColor(nameOrColor));
+    }
+    @GetMapping(path = "all")  //GET http://localhost:8080/faculty/all
+    public ResponseEntity<Collection<Faculty>> findAll() {
         return ResponseEntity.ok(facultyService.getAll());
     }
 
@@ -58,5 +54,10 @@ public class FacultyController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(foundFaculty);
+    }
+
+    @GetMapping(path="{id}/students")
+    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@PathVariable Long id){
+        return ResponseEntity.ok(facultyService.findStudentsById(id));
     }
 }
