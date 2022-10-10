@@ -41,9 +41,6 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public Collection<Student> getStudentsByAge(int age) {
-        return studentRepository.findByAge(age);
-    }
 
     public Collection<Student> findStudentsByAgeIsBetween(int age1, int age2) {
         return studentRepository.findStudentsByAgeIsBetween(age1, age2);
@@ -53,9 +50,6 @@ public class StudentService {
         return studentRepository.findByNameIgnoreCaseAndAge(name,age);
     }
 
-    public Collection<Student> findByFaculty(Long faculty_id) {
-        return studentRepository.findStudentsByFacultyId(faculty_id);
-    }
 
     public Faculty findFaculty(Long id) {
         return facultyRepository.findByStudentsId(id);

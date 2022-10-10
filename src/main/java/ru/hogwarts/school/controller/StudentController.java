@@ -27,6 +27,10 @@ public class StudentController {
         }
         return ResponseEntity.ok(student);
     }
+    @GetMapping(path = "all")  //GET http://localhost:8080/student/all
+    public ResponseEntity<Collection<Student>> getAll() {
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
 
     @GetMapping  //GET http://localhost:8080/student
     public ResponseEntity<Collection<Student>> findStudent(@RequestParam Integer age,

@@ -46,10 +46,6 @@ private final StudentRepository studentRepository;
         return facultyRepository.findByColorIgnoreCase(nameOrColor);
     }
 
-    public Faculty findByStudentId(Long student_id) {
-        return facultyRepository.findByStudentsId(student_id);
-    }
-
     public Collection<Student> findStudentsById(Long id) {
        return studentRepository.findStudentsByFacultyId(id);
     }
