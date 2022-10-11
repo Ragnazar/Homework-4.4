@@ -1,6 +1,10 @@
 package ru.hogwarts.school.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 public class Avatar {
@@ -12,6 +16,7 @@ public class Avatar {
     private long fileSize;
     private String mediaType;
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
 
     @OneToOne
@@ -21,6 +26,40 @@ public class Avatar {
     public Student getStudent() {
         return student;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Avatar avatar = (Avatar) o;
+        return fileSize == avatar.fileSize && Objects.equals(id, avatar.id)
+                && Objects.equals(filePath, avatar.filePath)
+                && Objects.equals(mediaType, avatar.mediaType)
+                && Arrays.equals(data, avatar.data)
+                && Objects.equals(student, avatar.student);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, filePath, mediaType, fileSize, student);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "id=" + id +
+                ", filePath='" + filePath + '\'' +
+                ", mediaType='" + mediaType + '\'' +
+                ", fileSize=" + fileSize +
+                ", data=" + Arrays.toString(data) +
+                ", student=" + student +
+                '}';
+    }
+
 
     public long getId() {
         return id;

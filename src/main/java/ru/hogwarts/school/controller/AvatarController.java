@@ -30,31 +30,32 @@ public class AvatarController {
         if (avatar.getSize() >= 1024 * 300) {
             return ResponseEntity.badRequest().body("File is too big");
         }
-            avatarService.saveAvatar(avatar);
+        avatarService.saveAvatar(avatar);
 
-            return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
 
 
     }
-        @GetMapping(value = "{id}/avatar-from-db")
-        public ResponseEntity<byte[]> downloadAvatar (@PathVariable Long id){
-            Avatar result = avatarService.findAvatar(id);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.parseMediaType(result.getMediaType()));
-            headers.setContentLength(result.getData().length);
-            return ResponseEntity.status(HttpStatus.OK).headers(headers).body(result.getData());
-        }
 
-        @GetMapping(value = "/{id}/avatar-from-file")
-        public void downloadAvatar (@PathVariable Long id, HttpServletResponse response) throws IOException {
-            Avatar avatar = avatarService.findAvatar(id);
-            Path path = Path.of(avatar.getFilePath());
-            try (InputStream is = Files.newInputStream(path);
-                 OutputStream os = response.getOutputStream()) {
-                response.setStatus(200);
-                response.setContentType(avatar.getMediaType());
-                response.setContentLength((int) avatar.getFileSize());
-                is.transferTo(os);
-            }
+    @GetMapping(value = "{id}/avatar-from-db")
+    public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
+        Avatar result = avatarService.findAvatar(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(result.getMediaType()));
+        headers.setContentLength(result.getData().length);
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(result.getData());
+    }
+
+    @GetMapping(value = "/{id}/avatar-from-file")
+    public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        Avatar avatar = avatarService.findAvatar(id);
+        Path path = Path.of(avatar.getFilePath());
+        try (InputStream is = Files.newInputStream(path);
+             OutputStream os = response.getOutputStream()) {
+            response.setStatus(200);
+            response.setContentType(avatar.getMediaType());
+            response.setContentLength((int) avatar.getFileSize());
+            is.transferTo(os);
         }
     }
+}
