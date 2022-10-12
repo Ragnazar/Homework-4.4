@@ -87,7 +87,7 @@ class StudentControllerTest {
 
         restTemplate.postForObject("http://localhost:" + port + "/student", student, Student.class);
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/age-between",Student.class))
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/age-between", Student.class))
                 .isNotNull();
     }
 
@@ -96,7 +96,7 @@ class StudentControllerTest {
         int two = 2;
 
         Faculty faculty = new Faculty();
-        faculty.setId((long)two);
+        faculty.setId((long) two);
         faculty.setName("testers");
         restTemplate.postForObject("http://localhost:" + port + "/faculty", faculty, Faculty.class);
 
@@ -107,7 +107,7 @@ class StudentControllerTest {
         student.setFaculty(faculty);
         restTemplate.put("http://localhost:" + port + "/student", student, Student.class);
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/"+ 19 +"/faculty",Faculty.class))
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/" + 19 + "/faculty", Faculty.class))
                 .isNotNull();
     }
 }

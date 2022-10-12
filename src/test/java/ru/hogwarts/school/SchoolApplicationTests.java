@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import ru.hogwarts.school.controller.StudentController;
 
-import static org.springframework.boot.test.context.SpringBootTest.*;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class SchoolApplicationTests {
@@ -16,6 +16,7 @@ class SchoolApplicationTests {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
     @Test
     void contextLoads() throws Exception {
         Assertions.assertThat(studentController).isNotNull();
