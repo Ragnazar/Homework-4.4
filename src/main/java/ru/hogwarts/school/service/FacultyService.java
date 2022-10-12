@@ -38,8 +38,8 @@ private final StudentRepository studentRepository;
     public Collection<Faculty> getAll() {
         return facultyRepository.findAll();
     }
-    public Faculty findByNameOrColor (String name, String color) {
-        return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name,color);
+    public Faculty findByNameOrColor (String nameOrColor) {
+        return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(nameOrColor,nameOrColor);
     }
 
     public Collection<Student> findStudentsById(Long id) {

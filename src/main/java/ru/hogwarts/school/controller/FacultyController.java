@@ -27,10 +27,11 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    public ResponseEntity<Faculty> findFacultyByNameOrColor(@RequestParam String name,
-                                                            @RequestParam String color) {
-        return ResponseEntity.ok(facultyService.findByNameOrColor(name, color));
+    @GetMapping
+    public ResponseEntity<Faculty> findFacultyByNameOrColor(@RequestParam String nameOrColor) {
+        return ResponseEntity.ok(facultyService.findByNameOrColor(nameOrColor));
     }
+
     @GetMapping(path = "all")  //GET http://localhost:8080/faculty/all
     public ResponseEntity<Collection<Faculty>> findAll() {
         return ResponseEntity.ok(facultyService.getAll());
@@ -56,8 +57,8 @@ public class FacultyController {
         return ResponseEntity.ok(foundFaculty);
     }
 
-    @GetMapping(path="{id}/students")
-    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@PathVariable Long id){
+    @GetMapping(path = "{id}/students")
+    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@PathVariable Long id) {
         return ResponseEntity.ok(facultyService.findStudentsById(id));
     }
 }
