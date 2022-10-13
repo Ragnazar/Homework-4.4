@@ -56,7 +56,7 @@ class StudentControllerTest {
 
     @Test
     void testGetStudentsById() throws Exception {
-        int one = 1;
+        int one = 3;
         Assertions
                 .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/" + one, Student.class))
                 .isNotNull();
@@ -98,7 +98,7 @@ class StudentControllerTest {
         Faculty faculty = new Faculty();
         faculty.setId((long) two);
         faculty.setName("testers");
-        restTemplate.postForObject("http://localhost:" + port + "/faculty", faculty, Faculty.class);
+        restTemplate.postForObject("http://localhost:" + port + "/faculty", faculty, String.class);
 
         Student student = new Student();
         student.setId((long) two);
