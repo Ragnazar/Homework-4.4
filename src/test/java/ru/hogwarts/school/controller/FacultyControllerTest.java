@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Optional;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(controllers = FacultyController.class)
 class FacultyControllerTest {
 
 @Autowired
@@ -31,7 +32,8 @@ class FacultyControllerTest {
 
     @MockBean
     private FacultyRepository facultyRepository;
-
+    @MockBean
+    private StudentRepository studentRepository;
     @SpyBean
     private FacultyService facultyService;
 
@@ -46,9 +48,9 @@ class FacultyControllerTest {
         final long id = 1;
 
         Faculty faculty = new Faculty();
-        faculty.setId(id);
-        faculty.setName("first");
-        faculty.setColor("red");
+        faculty.setId(1L);
+        faculty.setName("Ivanov Ivan");
+        faculty.setColor("green");
 
         JSONObject facultyObject = new JSONObject();
         facultyObject.put("id", id);
@@ -95,7 +97,7 @@ class FacultyControllerTest {
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.color").value(color));
 
-        mockMvc.perform(MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders //todo
                         .delete("/faculty/" + id)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
