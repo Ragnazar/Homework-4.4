@@ -43,13 +43,13 @@ class FacultyControllerTest {
 
     @Test
     public void testStudents() throws Exception {
-        final String name = "Ivanov Ivan";
+        final String name = "Слизерин";
         final String color = "green";
         final long id = 1;
 
         Faculty faculty = new Faculty();
         faculty.setId(1L);
-        faculty.setName("Ivanov Ivan");
+        faculty.setName("Слизерин");
         faculty.setColor("green");
 
         JSONObject facultyObject = new JSONObject();
@@ -85,9 +85,9 @@ class FacultyControllerTest {
                         .get("/faculty/" + id)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(id))
-                .andExpect(jsonPath("$[0].name").value(name))
-                .andExpect(jsonPath("$[0].color").value(color));
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value(name))
+                .andExpect(jsonPath("$.color").value(color));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty?color=" + color)
