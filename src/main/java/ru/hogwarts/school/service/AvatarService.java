@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
@@ -20,12 +21,10 @@ public class AvatarService {
     @Value("${student.avatar.dir.path}")
     private String avatarsDir;
 
-    private final StudentService studentService;
     private final AvatarRepository avatarRepository;
 
     public AvatarService(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
-        this.studentService = studentService;
     }
 
     public void saveAvatar(MultipartFile file) throws IOException {
@@ -53,9 +52,10 @@ public class AvatarService {
         return avatarRepository.findById(id).orElse(new Avatar());
     }
 
-    @Transactional
-    public Collection<Avatar> getAllAvatars() {
-        return avatarRepository.findAll();
+
+    public Collection<Avatar> getAllAvatars(Integer page, Integer limit) {
+        PageRequest pageRequest = PageRequest.of(page - 1, limit);
+        return avatarRepository.findAll(pageRequest).getContent();
     }
 
     public Avatar editAvatar(Avatar avatar) {
