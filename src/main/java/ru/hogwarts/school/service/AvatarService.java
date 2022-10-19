@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +12,6 @@ import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -53,9 +53,9 @@ public class AvatarService {
     }
 
 
-    public Collection<Avatar> getAllAvatars(Integer page, Integer limit) {
+    public Page<Avatar> getAllAvatars(Integer page, Integer limit) {
         PageRequest pageRequest = PageRequest.of(page - 1, limit);
-        return avatarRepository.findAll(pageRequest).getContent();
+        return avatarRepository.findAll(pageRequest);
     }
 
     public Avatar editAvatar(Avatar avatar) {
