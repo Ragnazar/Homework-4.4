@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,11 +25,15 @@ public class AvatarService {
 
     private final AvatarRepository avatarRepository;
 
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     public AvatarService(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
     }
 
     public void saveAvatar(MultipartFile file) throws IOException {
+        logger.error("There is no such directory to save");
+        logger.info("Was invoked method for save new picture");
         Path filePath = Path.of(avatarsDir, file.getOriginalFilename());
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
@@ -49,20 +55,24 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long id) {
+        logger.info("Was invoked method for search the avatar by id");
         return avatarRepository.findById(id).orElse(new Avatar());
     }
 
 
     public Page<Avatar> getAllAvatars(Integer page, Integer limit) {
+        logger.info("Was invoked method for show an limited avatars list");
         PageRequest pageRequest = PageRequest.of(page - 1, limit);
         return avatarRepository.findAll(pageRequest);
     }
 
     public Avatar editAvatar(Avatar avatar) {
+        logger.info("Was invoked method for edit the avatar");
         return avatarRepository.save(avatar);
     }
 
     public void deleteAvatar(Long id) {
+        logger.info("Was invoked method for delete the avatar");
         avatarRepository.deleteById(id);
     }
 }
