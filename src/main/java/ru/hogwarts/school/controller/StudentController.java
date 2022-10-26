@@ -86,4 +86,9 @@ public class StudentController {
     public ResponseEntity<List<Student>> getLastFiveStudents() {
         return ResponseEntity.ok(studentService.getLastFive());
     }
+
+    @GetMapping(path = "/the name begins with A")  //GET http://localhost:8080/student/the name begins with A
+    public ResponseEntity<List<String>> getStudentsWhomNamesBeginsWithA(){
+        return ResponseEntity.ok(studentService.getWithNamesBeginsWithA());
+    }
 }

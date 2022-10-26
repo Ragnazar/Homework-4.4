@@ -3,13 +3,16 @@ package ru.hogwarts.school.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -81,5 +84,20 @@ public class StudentService {
     public List<Student> getLastFive() {
         logger.info("Was invoked method for show last five student in the database");
         return studentRepository.getLastFive();
+    }
+
+    public List<String> getWithNamesBeginsWithA() {
+        logger.info("Was invoked method for show a list of students who's name begins with A");
+
+        List<Student> temp = studentRepository.findAll();
+        temp.sort(Comparator.comparing(Student::getName));
+
+        List<String> result = new ArrayList<>();
+
+        temp.stream()
+                .parallel()
+                .filter(student -> student.getName().charAt(0) == 'A' || student.getName().charAt(0) == 'a')
+                .forEach(s -> result.add(StringUtils.capitalize(s.getName())));
+        return result;
     }
 }
