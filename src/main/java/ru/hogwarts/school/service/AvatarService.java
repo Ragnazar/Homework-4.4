@@ -25,7 +25,7 @@ public class AvatarService {
 
     private final AvatarRepository avatarRepository;
 
-    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     public AvatarService(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
