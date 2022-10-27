@@ -87,8 +87,18 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getLastFive());
     }
 
-    @GetMapping(path = "/the-name-begins-with-A")  //GET http://localhost:8080/student/the name begins with A
+    @GetMapping(path = "/the-name-begins-with-A")  //GET http://localhost:8080/student/the-name-begins-with-A
     public ResponseEntity<List<String>> getStudentsWhomNamesBeginsWithA(){
         return ResponseEntity.ok(studentService.getWithNamesBeginsWithA());
+    }
+    @GetMapping(path = "/test-treads")  //GET http://localhost:8080/student/test-treads
+    public ResponseEntity<String> getTest(){
+        studentService.getTestList();
+        return ResponseEntity.ok("Look at the console");
+    }
+    @GetMapping(path = "/test-sync-treads")  //GET http://localhost:8080/student/test-treads
+    public ResponseEntity<String> getSyncTest(){
+        studentService.getTestSynchronizedList();
+        return ResponseEntity.ok("Look at the console");
     }
 }

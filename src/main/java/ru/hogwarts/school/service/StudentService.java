@@ -18,7 +18,8 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final FacultyRepository facultyRepository;
-
+    Integer count = 0;
+    public final Object flag = new Object();
     private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
@@ -97,5 +98,55 @@ public class StudentService {
                 .filter(s -> s.charAt(0) == 'A' || s.charAt(0) == 'a')
                 .map(s -> Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase())
                 .collect(Collectors.toList());
+    }
+
+    public void getTestList() {
+        logger.info("Was invoked method for display a list of students, which is printed in different threads");
+
+        List<String> temp = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+
+        System.out.println(temp.get(0));
+        System.out.println(temp.get(1));
+
+        new Thread(() -> {
+            System.out.println(temp.get(2));
+            System.out.println(temp.get(3));
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(temp.get(4));
+            System.out.println(temp.get(5));
+        }).start();
+    }
+
+    public void getTestSynchronizedList() {
+
+        logger.info("Was invoked method for display a list of students, which is printed in different synchronized threads");
+
+
+        doPrint(0);
+        doPrint(1);
+
+        new Thread(() -> {
+            doPrint(2);
+            doPrint(3);
+        }).start();
+
+        new Thread(() -> {
+            doPrint(4);
+            doPrint(5);
+        }).start();
+    }
+
+    private void doPrint(int number) {
+        List<String> temp = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .toList();
+        synchronized (flag) {
+            System.out.println(temp.get(number) + " " + count);
+            count++;
+        }
     }
 }
