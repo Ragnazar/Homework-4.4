@@ -10,7 +10,6 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
 
 @Service
 public class FacultyService {
@@ -60,13 +59,14 @@ public class FacultyService {
         return studentRepository.findStudentsByFacultyId(id);
     }
 
-    //Выглядит костыльно и отображается с Optional
     //TODO
     public String getLongestName() {
         logger.info("Was invoked method of searching for the longest faculty name ");
 
-        List<Faculty> temp = facultyRepository.findAll();
-        return String.valueOf(temp.stream()
-                .max(Comparator.comparingInt(f -> f.getName().length())));
+        return facultyRepository.findAll()
+                .stream()
+                .max(Comparator.comparing(f -> f.getName().length()))
+                .map(Faculty::getName)
+                .orElseThrow();
     }
 }

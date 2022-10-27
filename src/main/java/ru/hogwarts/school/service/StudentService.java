@@ -3,17 +3,15 @@ package ru.hogwarts.school.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -78,7 +76,11 @@ public class StudentService {
 
     public Double gatAverageAge() {
         logger.info("Was invoked method for counting students average age");
-        return studentRepository.getAverageAge();
+        return studentRepository.findAll()
+                .stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElseThrow();
     }
 
     public List<Student> getLastFive() {
@@ -89,15 +91,11 @@ public class StudentService {
     public List<String> getWithNamesBeginsWithA() {
         logger.info("Was invoked method for show a list of students who's name begins with A");
 
-        List<Student> temp = studentRepository.findAll();
-        temp.sort(Comparator.comparing(Student::getName));
-
-        List<String> result = new ArrayList<>();
-
-        temp.stream()
-                .parallel()
-                .filter(student -> student.getName().charAt(0) == 'A' || student.getName().charAt(0) == 'a')
-                .forEach(s -> result.add(StringUtils.capitalize(s.getName())));
-        return result;
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .sorted()
+                .filter(s -> s.charAt(0) == 'A' || s.charAt(0) == 'a')
+                .map(s -> Character.toUpperCase(s.charAt(0)) + s.substring(1).toLowerCase())
+                .collect(Collectors.toList());
     }
 }
